@@ -11,29 +11,6 @@ from app.models import User, Note
 user_bp = Blueprint('user_bp', __name__, url_prefix="/user")
 
 
-@user_bp.route('', methods=['POST'])
-@token_required
-def create_user(current_user):
-    if not current_user.admin:
-        return jsonify({'message': 'Cannot perform that function!'})
-    data = request.get_json()
-    hashed_password = generate_password_hash(
-        str(data['password']), method='pbkdf2:sha256')
-
-    user_schema = UserSchema()
-
-    data['password'] = hashed_password
-    data['admin'] = False
-    data['public_id'] = str(uuid.uuid4())
-
-    try:
-        user = user_schema.load(data, session=db.session)
-    except ValidationError as err:
-        return jsonify(err.messages), 400
-
-    db.session.add(user)
-    db.session.commit()
-    return jsonify({"message": "New user created"})
 
 
 @user_bp.route('', methods=['GET'])

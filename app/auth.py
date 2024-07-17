@@ -1,4 +1,7 @@
-from flask import Flask, request, jsonify, make_response, Blueprint
+from flask import Flask, request, jsonify, make_response, Blueprint, url_for
+from flask_mail import Mail,Message
+from itsdangerous import URLSafeTimedSerializer, SignatureExpired
+
 from app import app
 from app.models import User
 
@@ -7,7 +10,10 @@ import jwt
 import datetime
 from functools import wraps
 
-log_bp = Blueprint('log_bp', __name__, url_prefix='/login')
+
+log_bp = Blueprint('log_bp', __name__, url_prefix='/')
+mail = Mail(app)
+s = URLSafeTimedSerializer('SecretKey')
 
 def token_required(f):
     @wraps(f)
@@ -29,7 +35,9 @@ def token_required(f):
 
     return decorated
 
+
 @log_bp.route('', methods=['GET'])
+@log_bp.route('/login', methods=['GET'])
 def login():
     auth = request.authorization
 
@@ -46,3 +54,18 @@ def login():
         return jsonify({'token': token})
 
     return make_response("Invalid password", 401, {'WWW-Authenticate': 'Basic realm="Login required!"'})
+
+@log_bp.route('/register', methods=['POST'])
+def create_user():
+    data = request.get_json()
+    email = data['login']
+    token = s.dumps(email,salt='email_confirm')
+    msg = Message('Confirm email',sender='Ertoshka04@gmail.com', recipients=email)
+    link = url_for('log_bp.con',token = token, _external = True)
+    msg.body = f"Your confirim link {link}"
+    mail.send(msg)
+    return jsonify({'Message':'Confirm link send to your email'})
+
+@log_bp.route('/confirm_email/<token>')
+def con(token):
+    return "OK"
