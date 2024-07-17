@@ -1,7 +1,9 @@
 from app.config import db
 
+
 class User(db.Model):
     __tablename__ = "User"
+
     id = db.Column(db.Integer, primary_key = True)
     public_id = db.Column(db.String(50),unique = True)
     login = db.Column(db.String(200),unique= True)
