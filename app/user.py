@@ -1,7 +1,8 @@
-from flask import Flask, jsonify, request, Blueprint
 import uuid
+
+from flask import Flask, jsonify, request, Blueprint
 from werkzeug.security import generate_password_hash, check_password_hash
-from marshmallow import  ValidationError
+from marshmallow import ValidationError
 
 from app.config import db
 from app.serializer import UserSchema
@@ -9,8 +10,6 @@ from app.auth import token_required
 from app.models import User, Note
 
 user_bp = Blueprint('user_bp', __name__, url_prefix="/user")
-
-
 
 
 @user_bp.route('', methods=['GET'])
@@ -77,4 +76,3 @@ def update_user(current_user, public_id):
             str(data['new_password']), method='pbkdf2:sha256')
     db.session.commit()
     return jsonify({'message': 'User updated'})
-

@@ -1,13 +1,16 @@
-from app.models import User,Note
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow import fields
 from marshmallow import fields, validates, ValidationError
+
+from app.models import User, Note
+
 
 class UserSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = User
         include_relationships = True
         load_instance = True
+
     @validates('login')
     def validate_login(self, value):
         if not value:
@@ -31,5 +34,5 @@ class NoteSchema(SQLAlchemyAutoSchema):
         model = Note
         include_relationships = True
         exclude = ('user_id',)
-    user_id = fields.Integer(dump_only=True, load_only=False)
 
+    user_id = fields.Integer(dump_only=True, load_only=False)

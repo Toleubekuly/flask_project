@@ -1,8 +1,7 @@
 import os
-
-from app import app
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv,find_dotenv
+from app import app
 
 load_dotenv()
 
@@ -13,8 +12,8 @@ app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
 app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
 app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
 app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
-app.config['MAIL_USE_SSL'] = os.getenv('MAIL_USE_SSL')
-app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS')
+app.config['MAIL_USE_SSL'] = True
+app.config['MAIL_USE_TLS'] = False
 
 db = SQLAlchemy()
 db.init_app(app)
