@@ -10,6 +10,7 @@ services:
       - "4000:4000"
     environment:
       - DB_URL=postgresql://postgres:Ertoshka0508@flask_db:5432/db
+      - PYTHONPATH=/app
     depends_on:
       - flask_db
     volumes:

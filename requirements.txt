@@ -1,7 +1,9 @@
 blinker==1.8.2
 click==8.1.7
+Faker==26.0.0
 Flask==3.0.3
 Flask-Mail==0.10.0
+Flask-Seeder==1.2.0
 Flask-SQLAlchemy==3.1.1
 greenlet==3.0.3
 itsdangerous==2.2.0
@@ -14,9 +16,11 @@ packaging==24.1
 psycopg2==2.9.9
 psycopg2-binary==2.9.9
 PyJWT==2.8.0
+python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytz==2024.1
 setuptools==70.3.0
+six==1.16.0
 SQLAlchemy==2.0.29
 typing_extensions==4.12.2
 Werkzeug==3.0.3
